@@ -1,42 +1,53 @@
-import React from 'react'
-import FoodForm from './FoodForm'
-import FoodList from './FoodList'
- 
-class App extends React.Component{
-
-  state ={
-    foodItems: [
-      {id: 1, name: 'Grilled fish'},
-      {id: 2, name: 'canned milk'},
-      {id: 3, name: 'frozen bacon'},
-      {id: 4, name: 'fried sabastein'},
-    ]
-  }
+import React from "react";
+import {Route} from "react-router-dom";
+import axios from "axios";
 
 
-  addFoodItem =(incomingState)=>{
-    let newId = this.state.foodItems.length + 1
-    const {name} = incomingState
-    let newFood = {id: newId, name: name}
-    this.setState({
-      foodItems: [...this.state.foodItems, newFood]
+import "bootstrap/dist/css/bootstrap.min.css"
+
+
+import Home from "./component/Home";
+import About from "./component/About";
+import PostList from "./component/PostList";
+import Contact from "./component/Contact";
+import Navigation from "./component/Navigation";
+
+class App extends React.Component {
+
+  state = {
+    posts: [],
+  };
+
+
+  //fetch data from json placeholder "https://jsonplaceholder.typicode.com/posts"
+  componentDidMount(){
+    axios
+    .get("https://jsonplaceholder.typicode.com/posts")
+    .then((res) => {
+      this.setState({posts: res.data,});
     })
-    
-    console.log(newFood)
+    .catch((err) => {
+      console.log(err.response);
+    });
+
   }
 
-  render(){
-    return(
+  render() {
+    return (
       <div>
-        <FoodList item={this.state.foodItems}/>
+        
+        <Navigation />
 
-        <FoodForm addFoodItem={this.addFoodItem}/>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/about" component={About} />
+        <Route exact path="/posts" render={(routerprops) => <PostList {...routerprops} posts={this.state.posts}/> } />
+        {/* <Router path="/posts"> <PostList posts={this.state.posts} </Router> */}
+        <Route exact path="/contact" component={Contact} />
+
+        
       </div>
-    )
+    );
   }
-};
-
+}
 
 export default App;
-
-
