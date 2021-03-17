@@ -29,7 +29,7 @@ class PostDetail extends React.Component {
 
 
     return (
-      <div key={postItem.id}>
+      <div key={postItem.id} className="container bg-light p-3">
         {/* pass as a props
         go to json placeholder----it comes as an object 
         then use dot notation to access title and body*/}

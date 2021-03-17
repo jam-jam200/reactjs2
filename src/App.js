@@ -10,7 +10,6 @@ import PostList from "./component/PostList";
 import Contact from "./component/Contact";
 import Navigation from "./component/Navigation";
 import PostDetail from "./component/PostDetail";
-import { render } from "@testing-library/react";
 
 class App extends React.Component {
   state = {
@@ -18,22 +17,17 @@ class App extends React.Component {
     postItem: [],
   };
 
-
-  
   //fetch data from json placeholder "https://jsonplaceholder.typicode.com/posts"
   componentDidMount() {
     axios
-    .get("https://jsonplaceholder.typicode.com/posts")
-    .then((res) => {
-      this.setState({ posts: res.data });
-    })
-    .catch((err) => {
-      console.log(err.response);
-    });
+      .get("https://jsonplaceholder.typicode.com/posts")
+      .then((res) => {
+        this.setState({ posts: res.data });
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
   }
-
-  
-  
 
   render() {
     return (
@@ -51,11 +45,16 @@ class App extends React.Component {
         />
         {/* <Router path="/posts"> <PostList posts={this.state.posts} </Router> */}
         <Route path="/contact" component={Contact} />
-        <Route exact path="/post/:id" render={(routerprops)=>(<PostDetail {...routerprops} postItem={this.state.postItem} />) } />
+        <Route
+          exact
+          path="/post/:id"
+          render={(routerprops) => (
+            <PostDetail {...routerprops} postItem={this.state.postItem} />
+          )}
+        />
       </div>
     );
   }
 }
-
 
 export default App;
